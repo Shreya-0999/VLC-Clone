@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>VLC</title>
+</head>
+
+<body>
+    <div class="vlc">
+        <div class="headerBox">
+            <div class="vlcImg">
+                <img src="VLC.png" alt="" class="img">
+            </div>
+            <div class="videoDetail">
+                <h5 class="h5"> VLC media player</h5>
+            </div>
+        </div>
+
+        <div class="menuBox">
+            <div class="menuBtn">
+                <input type="file" accept="video" class="input" id="input"/>
+                <button class="btn">Open</button>
+            </div>
+            <div class="menuBtn">
+                <button class="btn">Playback</button>
+                <div class="menuItems">
+                    <h5 class="items" id="speedUp">Speed Up</h5>
+                    <h5 class="items" id="speedDown">Speed Down</h5>
+                </div>
+            </div>
+            <div class="menuBtn">
+                <button class="btn">Audio</button>
+                <div class="menuItems">
+                    <h5 class="items" id="volumeUp">Volume Up</h5>
+                    <h5 class="items" id="volumeDown">Volume Down</h5>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="videoBox" id="videoBox">
+            <div class="imgBox" id="imgBox">
+                <img src="VLC.png" alt="" class="videoImg">
+            </div>
+            <div class="displayMsg" id="displayMsg">
+                
+            </div>
+        </div>
+
+        <div class="barBox">
+            <div class="timeplayed" id="timeplayed">--/--</div>
+            <div class="bar">
+                <input type="range" value="0" min = "0" class="slider" id="slider">
+            </div>
+            <div class="duration" id="duration">--/--</div>
+        </div>
+
+        <div class="functionBox">
+            <div class="playBox hovbox" id="playBox">
+                <i class="fas fa-play state"></i>
+            </div>
+            <div class="other">
+                <div class="func hovbox">
+                    <i class="fas fa-backward " id="backward"></i>
+                </div>
+                <div class="func hovbox" id="stop">
+                    <i class="fas fa-stop "></i>
+                </div>
+                <div class="func hovbox" id="forward">
+                    <i class="fas fa-forward "></i>
+                </div>
+                <div class="func hovbox" id="fullScreen">
+                    <i class="fas fa-expand"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
