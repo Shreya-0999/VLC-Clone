@@ -189,7 +189,7 @@ body {
 }
 .other{
     height: 75%;
-    width: 10%;
+    width: 50%;
     margin-left: 5px;
     display: flex;
     align-items: center;
@@ -207,4 +207,12 @@ body {
     background-color: rgb(221, 218, 218);
     border: 1px solid rgb(126, 124, 124);
     font-size: 11px;
+}
+@media (min-width: 340px) and (max-width: 640px) {
+    .bar{
+        width: 80%;
+    }
+    .barBox{
+        justify-content: space-evenly;
+    }
 }
