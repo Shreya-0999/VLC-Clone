@@ -1,6 +1,3 @@
-const electron = require("electron");
-const {ipcRenderer} = electron;
-
 let body = document.body;
 let inputFile = document.querySelector("#input");
 let videoBox = document.querySelector("#videoBox");
