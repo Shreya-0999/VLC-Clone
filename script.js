@@ -26,11 +26,13 @@ let state = "";
 
 inputFile.addEventListener("change", function (e) {
     let src = URL.createObjectURL(e.target.files[0]);
+    console.log("input");
     let videoSrc = src;
     setVideos(videoSrc);
 })
 
 function setVideos(videoSrc) {
+    console.log("set");
     video.src = videoSrc;
     video.play();
     videoBox.appendChild(video);
@@ -55,7 +57,7 @@ playBox.addEventListener("click", function (e) {
 
 stopBtn.addEventListener("click", function () {
     if (video) {
-        videoBox.removeChild(video);
+        video.remove();
         durationBox.innerText = '--/--';
         timePlayedBox.innerText = '00:00';
         currentPlayTime = 0;
@@ -63,7 +65,6 @@ stopBtn.addEventListener("click", function () {
         state = "pause";
         stateChange();
         stopTimmer();
-        video=null;
     }
 })
 
