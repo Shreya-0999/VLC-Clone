@@ -160,6 +160,8 @@ function forward() {
     video.currentTime = currentPlayTime;
     slider.setAttribute("value", currentPlayTime);
     msgDisplay("Forward by 5 sec");
+    let time = timeFormat(currentPlayTime);
+    timePlayedBox.innerText = time;
 }
 
 function backward() {
@@ -167,6 +169,8 @@ function backward() {
     video.currentTime = currentPlayTime;
     slider.setAttribute("value", currentPlayTime);
     msgDisplay("Backward by 5 sec");
+    let time = timeFormat(currentPlayTime);
+    timePlayedBox.innerText = time;
 }
 
 function stateChange() {
@@ -188,9 +192,12 @@ function fullScreen() {
 
 function timeFormat(timeCount) {
     let time = '';
-    let seconds = (timeCount % 60) < 10 ? `0${timeCount % 60}` : `${timeCount % 60}`;
-    let minutes = (timeCount / 60) < 10 ? `0${Number.parseInt(timeCount / 60)}` : `${Number.parseInt(timeCount % 60)}`;
-    let hours = (timeCount / 3600) < 10 ? `${Number.parseInt(timeCount / 3600)}` : `${Number.parseInt(timeCount % 60)}`;
+    const sec = parseInt(timeCount, 10);
+    let hours   = Math.floor(sec / 3600); 
+    let minutes = Math.floor((sec - (hours * 3600)) / 60);
+    let seconds = sec - (hours * 3600) - (minutes * 60); 
+    if (hours   < 10) {hours   = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
     time = `${hours}:${minutes}:${seconds}`;
     return time;
 }
@@ -201,10 +208,14 @@ function getCurrTime() {
         slider.setAttribute("value", currentPlayTime);
         let time = timeFormat(currentPlayTime);
         timePlayedBox.innerText = time;
+
         if (currentPlayTime == duration) {
             state = "pause";
             stateChange();
             stopTimmer();
+            video.remove();
+            timePlayedBox.innerText = "00:00";
+            durationBox.innerText = '--/--';
         }
     }, 1000);
 }
