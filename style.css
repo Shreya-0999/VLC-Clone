@@ -215,4 +215,7 @@ body {
     .barBox{
         justify-content: space-evenly;
     }
+    .timeplayed, .duration{
+        font-size: 8px;
+    }
 }
