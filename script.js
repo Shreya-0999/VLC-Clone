@@ -65,6 +65,7 @@ stopBtn.addEventListener("click", function () {
         state = "pause";
         stateChange();
         stopTimmer();
+        video = null;
     }
 })
 
