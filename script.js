@@ -1,3 +1,6 @@
+const electron = require("electron");
+const {ipcRenderer} = electron;
+
 let body = document.body;
 let inputFile = document.querySelector("#input");
 let videoBox = document.querySelector("#videoBox");
@@ -27,7 +30,7 @@ let state = "";
 inputFile.addEventListener("change", function (e) {
     let src = URL.createObjectURL(e.target.files[0]);
     let videoSrc = src;
-    setVideos(videoSrc)
+    setVideos(videoSrc);
 })
 
 function setVideos(videoSrc) {
@@ -192,7 +195,12 @@ function stopTimmer() {
 
 function msgDisplay(domain, value){
     displayMsg.style.display = 'block';
-    displayMsg.innerText = `${domain} : ${value}`;
+    if (value){
+        displayMsg.innerText = `${domain} : ${value}`;
+    }
+    else{
+        displayMsg.innerText = `${domain}`;
+    }
     setTimeout(function(){
         displayMsg.style.display = 'none';
     }, 2000);
