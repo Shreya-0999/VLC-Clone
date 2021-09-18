@@ -19,7 +19,7 @@ let video = document.createElement("video");
 video.setAttribute("class", "video");
 let currentPlayTime;
 let duration;
-let vidVolume = 1;
+let vidVolume = 0.5;
 let playbackRate = 1;
 let timmerObj;
 let state = "";
@@ -39,27 +39,32 @@ function setVideos(videoSrc) {
         duration = Math.round(video.duration);
         let time = timeFormat(duration);
         durationBox.innerText = time;
-        getCurrTime();
         slider.setAttribute("max", duration);
     })
-
+    getCurrTime();
     state = "play";
     stateChange();
-
 }
 
 playBox.addEventListener("click", function (e) {
-    state == "play" ? state = "pause" : state = "play";
-    stateChange();
+    if (video) {
+        state == "play" ? state = "pause" : state = "play";
+        stateChange();
+    }
 })
 
 stopBtn.addEventListener("click", function () {
-    videoBox.removeChild(video);
-    durationBox.innerText = '--/--';
-    timePlayedBox.innerText = '--/--';
-    slider.setAttribute("value", 0);
-    state = "pause";
-    stateChange();
+    if (video) {
+        videoBox.removeChild(video);
+        durationBox.innerText = '--/--';
+        timePlayedBox.innerText = '00:00';
+        currentPlayTime = 0;
+        slider.setAttribute("value", 0);
+        state = "pause";
+        stateChange();
+        stopTimmer();
+        video=null;
+    }
 })
 
 forwardBtn.addEventListener("click", forward);
@@ -69,16 +74,18 @@ fullScreenBtn.addEventListener("click", fullScreen);
 videoBox.addEventListener("dblclick", fullScreen);
 
 VolumeUp.addEventListener("click", function () {
-    if (vidVolume < 1) {
-        vidVolume += 0.2;
+    if (vidVolume + 0.3 < 1) {
+        vidVolume += 0.3;
         video.volume = vidVolume;
+        msgDisplay("Volume +");
     }
 })
 
 VolumeDown.addEventListener("click", function () {
-    if (vidVolume > 0) {
-        vidVolume -= 0.2;
+    if (vidVolume - 0.3 > 0) {
+        vidVolume -= 0.3;
         video.volume = vidVolume;
+        msgDisplay("Volume -");
     }
 })
 
@@ -101,16 +108,24 @@ speedDown.addEventListener("click", function () {
 // shortcut through keyboard
 body.addEventListener("keyup", function (e) {
     if (e.code == "Space") {
-        state == "play" ? state = "pause" : state = "play";
-        stateChange();
+        if(video){
+            state == "play" ? state = "pause" : state = "play";
+            stateChange();
+        }
     }
     else if (e.key == "ArrowUp" && vidVolume < 1) {
-        vidVolume += 0.2;
-        video.volume = vidVolume;
+        if (vidVolume + 0.3 < 1) {
+            vidVolume += 0.3;
+            video.volume = vidVolume;
+            msgDisplay("Volume +");
+        }
     }
     else if (e.key == "ArrowDown" && vidVolume > 0) {
-        vidVolume -= 0.2;
-        video.volume = vidVolume;
+        if (vidVolume - 0.3 > 0) {
+            vidVolume -= 0.3;
+            video.volume = vidVolume;
+            msgDisplay("Volume -");
+        }
     }
     else if (e.key == "+") {
         if (playbackRate < 3) {
@@ -126,22 +141,22 @@ body.addEventListener("keyup", function (e) {
             msgDisplay("Speed", playbackRate + "x");
         }
     }
-    else if(e.key == "ArrowRight"){
+    else if (e.key == "ArrowRight") {
         forward();
     }
-    else if(e.key == "ArrowLeft"){
+    else if (e.key == "ArrowLeft") {
         backward();
     }
 })
 
-function forward(){
+function forward() {
     currentPlayTime = Math.round(video.currentTime) + 5;
     video.currentTime = currentPlayTime;
     slider.setAttribute("value", currentPlayTime);
     msgDisplay("Forward by 5 sec");
 }
 
-function backward(){
+function backward() {
     currentPlayTime = Math.round(video.currentTime) - 5;
     video.currentTime = currentPlayTime;
     slider.setAttribute("value", currentPlayTime);
@@ -181,6 +196,8 @@ function getCurrTime() {
         let time = timeFormat(currentPlayTime);
         timePlayedBox.innerText = time;
         if (currentPlayTime == duration) {
+            state = "pause";
+            stateChange();
             stopTimmer();
         }
     }, 1000);
@@ -190,15 +207,15 @@ function stopTimmer() {
     clearInterval(timmerObj);
 }
 
-function msgDisplay(domain, value){
+function msgDisplay(domain, value) {
     displayMsg.style.display = 'block';
-    if (value){
+    if (value) {
         displayMsg.innerText = `${domain} : ${value}`;
     }
-    else{
+    else {
         displayMsg.innerText = `${domain}`;
     }
-    setTimeout(function(){
+    setTimeout(function () {
         displayMsg.style.display = 'none';
     }, 2000);
 }
