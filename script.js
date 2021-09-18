@@ -19,7 +19,7 @@ let video = document.createElement("video");
 video.setAttribute("class", "video");
 let currentPlayTime;
 let duration;
-let vidVolume = 0.5;
+let vidVolume = 1;
 let playbackRate = 1;
 let timmerObj;
 let state = "";
@@ -74,19 +74,24 @@ backwardBtn.addEventListener("click", backward);
 fullScreenBtn.addEventListener("click", fullScreen);
 videoBox.addEventListener("dblclick", fullScreen);
 
+slider.addEventListener("change", function(e){
+    let value = e.target.value;
+    video.currentTime = value;
+})
+
 VolumeUp.addEventListener("click", function () {
-    if (vidVolume + 0.3 < 1) {
-        vidVolume += 0.3;
+    if (vidVolume < 1) {
+        vidVolume += 0.1;
         video.volume = vidVolume;
-        msgDisplay("Volume +");
+        msgDisplay("Volume", Math.round(vidVolume * 100) + "%");
     }
 })
 
 VolumeDown.addEventListener("click", function () {
-    if (vidVolume - 0.3 > 0) {
-        vidVolume -= 0.3;
+    if (vidVolume > 0) {
+        vidVolume -= 0.1;
         video.volume = vidVolume;
-        msgDisplay("Volume -");
+        msgDisplay("Volume", Math.round(vidVolume * 100) + "%");
     }
 })
 
@@ -115,17 +120,17 @@ body.addEventListener("keyup", function (e) {
         }
     }
     else if (e.key == "ArrowUp" && vidVolume < 1) {
-        if (vidVolume + 0.3 < 1) {
-            vidVolume += 0.3;
+        if (vidVolume < 1) {
+            vidVolume += 0.1;
             video.volume = vidVolume;
-            msgDisplay("Volume +");
+            msgDisplay("Volume", Math.round(vidVolume * 100) + "%");
         }
     }
     else if (e.key == "ArrowDown" && vidVolume > 0) {
-        if (vidVolume - 0.3 > 0) {
-            vidVolume -= 0.3;
+        if (vidVolume > 0) {
+            vidVolume -= 0.1;
             video.volume = vidVolume;
-            msgDisplay("Volume -");
+            msgDisplay("Volume", Math.round(vidVolume * 100) + "%");
         }
     }
     else if (e.key == "+") {
