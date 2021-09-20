@@ -15,8 +15,9 @@ let forwardBtn = document.querySelector("#forward");
 let backwardBtn = document.querySelector("#backward");
 let fullScreenBtn = document.querySelector("#fullScreen");
 let displayMsg = document.querySelector("#displayMsg");
-let video = document.createElement("video");
-video.setAttribute("class", "video");
+let video;
+// let video = document.createElement("video");
+// video.setAttribute("class", "video");
 let currentPlayTime;
 let duration;
 let vidVolume = 1;
@@ -25,14 +26,14 @@ let timmerObj;
 let state = "";
 
 inputFile.addEventListener("change", function (e) {
+    video = document.createElement("video");    
+    video.setAttribute("class", "video");
     let src = URL.createObjectURL(e.target.files[0]);
-    console.log("input");
     let videoSrc = src;
     setVideos(videoSrc);
 })
 
 function setVideos(videoSrc) {
-    console.log("set");
     video.src = videoSrc;
     video.play();
     videoBox.appendChild(video);
@@ -58,14 +59,15 @@ playBox.addEventListener("click", function (e) {
 stopBtn.addEventListener("click", function () {
     if (video) {
         video.remove();
-        durationBox.innerText = '--/--';
-        timePlayedBox.innerText = '00:00';
-        currentPlayTime = 0;
-        slider.setAttribute("value", 0);
         state = "pause";
         stateChange();
         stopTimmer();
-        video = null;
+        slider.value = 0;
+        durationBox.innerText = '--/--';
+        timePlayedBox.innerText = '00:00';
+        slider.setAttribute("value", 0);
+        currentPlayTime = 0;
+        video = "";
     }
 })
 
@@ -206,7 +208,7 @@ function timeFormat(timeCount) {
 function getCurrTime() {
     timmerObj = setInterval(function () {
         currentPlayTime = Math.round(video.currentTime);
-        slider.setAttribute("value", currentPlayTime);
+        slider.value = currentPlayTime;
         let time = timeFormat(currentPlayTime);
         timePlayedBox.innerText = time;
 
@@ -215,6 +217,7 @@ function getCurrTime() {
             stateChange();
             stopTimmer();
             video.remove();
+            slider.value = 0;
             timePlayedBox.innerText = "00:00";
             durationBox.innerText = '--/--';
         }
